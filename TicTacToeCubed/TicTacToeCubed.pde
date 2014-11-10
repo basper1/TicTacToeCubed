@@ -81,25 +81,30 @@
     }
     noStroke();
     rect(squareX*27+3,squareY*27+3,21,21,3);
-    println(lastPlaceX + " " + lastPlaceY);
     if(winner == 0){
       drawPlacement();
       fplacement();
       drawFPlacement();
     } 
     wave();
-    if(turns >= 600||winner != 0){
-      fill(0);
+    print(turns);
+    if(turns > 600){
+      drawTurns();
+    }
+    println(" ");
+  }
+  //****************************************************************
+  void drawTurns(){
+
+      fill(255);
       stroke(0);
       strokeWeight(3);
       rect(boxWidth - 1,displayHeight-100,displayWidth-boxWidth + 1,100);
       fill(0,255,0);
       textSize(50);
       text(turns,boxWidth + 10,displayHeight-50);
-    }
+          print(" yes");
   }
-  //****************************************************************
-  
   void drawArray(){
     fill(255);
     noStroke();
@@ -150,7 +155,12 @@
   }
   //*********************************************************************
   void mousePressed(){
-    fill(255);
+    if(squareX == mouseX/27&&squareY == mouseY/27){
+      place();
+    }
+  }
+  
+  void place(){
     if(places[squareX][squareY] == 0){
       if(turn){
          places[squareX][squareY] = 1;
@@ -331,7 +341,6 @@
     noStroke();
     fill(0,200,0,50);
     rect(placementX1 * 27,placementY1 * 27,(placementX2 - placementX1) * 27,(placementY2 - placementY1) * 27,20);
-    println(placementX1 + " " + placementY1);
   }
   //**************************************************************************************
   int fplacementX1;
@@ -466,7 +475,7 @@
           }
           if((turns + 1)/2 >i + 150){
             stroke(0,255,0);
-            if((turns + 1)/2 >i + 100){
+            if((turns + 1)/2 >i + 200){
               stroke(0,50,0);
             }
             line(boxWidth + 121 + cos((waves + (i))/depth) * 100,90 + scoreHeight * (i),boxWidth + 121 + sin((waves + (i + 3))/depth) * 100,90 + scoreHeight * (i + 3));
@@ -515,19 +524,10 @@
   }
   
   void score(){
-    if(moving){
-      scoreHeight += 0.01;
-    }else{
-      scoreHeight -= 0.01;
-    }
-    if(scoreHeight >= 12){
-      moving = false;
-    }else if(scoreHeight <= 10){
-      moving = true;
-    }
+   scoreHeight = 11 + sin(millis()/1000.0);
   }
   
- /* void keyPressed(){
+  void keyPressed(){
     if(key == 'q'||key == 'Q'){
       for(int i = 0;i < 5;i++){
         places[3+i][0] = 2;
@@ -557,4 +557,4 @@
       squareY = mouseY/27;
     }
     
-  }*/
+  }
